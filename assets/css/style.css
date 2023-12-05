@@ -4,5 +4,17 @@
 }
 body {
     background: lightgrey;
+}
+h1 {
+    text-align: center;
+}
+#main {
+    position: relative;
+    background: pink;
+    width: 100vw;
     height: 100vh;
+}
+img {
+    position: absolute;
+    transition: transform ease 200ms;
 }

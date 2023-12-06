@@ -3,17 +3,22 @@ let clown = document.createElement("img");
 const div = document.querySelector("#main");
 const p = document.querySelector("p");
 const lifeElmt = document.querySelector("p > span");
-const timerElmt = document.querySelector("#timer");
+const timerElmt = document.querySelector("#timerDigit");
 let finishMsg = document.createElement("div");
 
 let moveInterval = 1300;
 let clownWidth = 0;
 let clownHeight = 0;
-let life = 0;
+let min = 0;
+let sec = 0;
+let life = 100;
+let lifDecInt = 1000;
 
 lifeElmt.innerHTML = life;
 clown.src = "./assets/images/clown.png";
 clown.style.width = "150px";
+clown.style.filter = "drop-shadow(16px 16px 20px black)";
+clown.style.userSelect = "none";
 div.appendChild(clown);
 
 clown.onload = () => {
@@ -35,31 +40,43 @@ const randMove = (elmt) => {
     elmt.style.transform = `translate(${randomX}px, ${randomY}px)`;
     elmt.style.transition = `transform ease ${moveInterval}ms`;
 };
-const timer = (min = 0, sec, elmt) => {
+const timer = (elmt) => {
+    const interval = setInterval(() => {
+        elmt.innerHTML = `${min}:0${sec}`;
+        if (sec > 59) {
+            sec = 0;
+            min++;
+        }
+        sec++;
+        if (sec < 10) {
+            elmt.innerHTML = `${min}:0${sec}`;
+        } else {
+            elmt.innerHTML = `${min}:${sec}`;
+        }
+        if (min == 0 && sec == 0) {
+            clearInterval(interval);
+            console.log("res");
+        }
+    }, 1000);
+};
+
+const lifeDecrease = () => {
     return new Promise((resolve) => {
         const interval = setInterval(() => {
-            elmt.innerHTML = `${min}:0${sec}`;
-            if (min > 0 && sec == 0) {
-                sec = 59;
-                min--;
-            }
-            sec--;
-            if (sec < 10) {
-                elmt.innerHTML = `${min}:0${sec}`;
-            } else {
-                elmt.innerHTML = `${min}:${sec}`;
-            }
-            if (min == 0 && sec == 0) {
+            life--;
+            lifeElmt.innerHTML = life;
+            if (life == 0) {
                 clearInterval(interval);
-                console.log("res");
                 resolve();
             }
-        }, 1000);
+        }, lifDecInt);
     });
 };
 
 let finish = async (interval) => {
-    await timer(0, 5, timerElmt);
+    timer(timerElmt);
+    await lifeDecrease();
+    clown.remove();
     clearInterval(interval);
     finishMsg.classList.add("floatingMsg");
     div.appendChild(finishMsg);

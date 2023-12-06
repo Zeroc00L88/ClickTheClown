@@ -1,3 +1,12 @@
+@font-face {
+    font-family: "digit";
+    src: url(../fonts/DS-DIGIB.TTF);
+}
+@font-face {
+    font-family: "carnival";
+    src: url(../fonts/CarnivaleeFreakshow-DLrm.ttf);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +18,7 @@ header {
     padding: 15px;
 }
 body {
-    background: lightgrey;
+    background: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,6 +29,9 @@ body p {
     text-align: center;
 }
 h1 {
+    font-family: carnival;
+    font-size: 30;
+    color: red;
     text-align: center;
 }
 #main {
@@ -29,6 +41,15 @@ h1 {
     background-size: cover;
     width: 100%;
     height: 100%;
+}
+#main:hover {
+    cursor:
+        url(../images/target.png) 16 16,
+        move;
+}
+#timer {
+    font-family: digit;
+    font-size: 30px;
 }
 img {
     position: absolute;
@@ -45,7 +66,7 @@ img {
     height: 100%;
     z-index: 99;
     background: white;
-    border: 3px solid grey;
+    border: 1px solid black;
     box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.5);
 }
 

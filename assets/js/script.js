@@ -6,12 +6,12 @@ const lifeElmt = document.querySelector("p > span");
 const timerElmt = document.querySelector("#timerDigit");
 let finishMsg = document.createElement("div");
 
-let moveInterval = 1300;
+let moveInterval = 1500;
 let clownWidth = 0;
 let clownHeight = 0;
 let min = 0;
 let sec = 0;
-let life = 100;
+let life = 50;
 let lifDecInt = 1000;
 
 lifeElmt.innerHTML = life;
@@ -26,6 +26,7 @@ clown.onload = () => {
     clownHeight = clown.height;
 };
 
+//Functions
 const getRandInt = (max) => {
     return Math.floor(Math.random() * max);
 };
@@ -38,25 +39,24 @@ const randMove = (elmt) => {
     let randomX = getRandInt(div.offsetWidth - clownWidth);
     let randomY = getRandInt(div.offsetHeight - clownHeight);
     elmt.style.transform = `translate(${randomX}px, ${randomY}px)`;
-    elmt.style.transition = `transform ease ${moveInterval}ms`;
+    elmt.style.transition = `transform linear 1000ms`;
 };
 const timer = (elmt) => {
     const interval = setInterval(() => {
-        elmt.innerHTML = `${min}:0${sec}`;
         if (sec > 59) {
             sec = 0;
             min++;
+            moveInterval /= 2;
+            intervalClown = setInterval(() => {
+                randMove(clown);
+            }, moveInterval);
         }
-        sec++;
         if (sec < 10) {
             elmt.innerHTML = `${min}:0${sec}`;
         } else {
             elmt.innerHTML = `${min}:${sec}`;
         }
-        if (min == 0 && sec == 0) {
-            clearInterval(interval);
-            console.log("res");
-        }
+        sec++;
     }, 1000);
 };
 
@@ -80,12 +80,14 @@ let finish = async (interval) => {
     clearInterval(interval);
     finishMsg.classList.add("floatingMsg");
     div.appendChild(finishMsg);
-    console.log("fin de jeu");
+    console.log("Game Over");
 };
 
 clown.addEventListener("click", () => {
     shake(p);
-    life++;
+    if (life < 100) {
+        life++;
+    }
     lifeElmt.innerHTML = life;
 });
 p.addEventListener("animationend", () => {

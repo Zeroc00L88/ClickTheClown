@@ -17,7 +17,48 @@ header {
     justify-content: space-between;
     padding: 15px;
 }
+#burgerMenu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 30px;
+}
+#burgerMenu span {
+    background: black;
+    height: 5px;
+}
+#sideBar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    padding-top: 90px;
+    background: whitesmoke;
+    position: absolute;
+    height: 100%;
+    width: 150px;
+    left: -230px;
+    z-index: 99;
+}
+#closeBtn {
+    position: absolute;
+    right: 15px;
+    top: 85px;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+}
+#sideBar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#menu,
+#timer {
+    width: 100px;
+}
 body {
+    position: relative;
     background: white;
     display: flex;
     flex-direction: column;
@@ -57,6 +98,11 @@ img {
 
 .floatingMsg {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
     left: 50%;
     top: 50%;
     margin: -200px -300px;
@@ -68,6 +114,7 @@ img {
     background: white;
     border: 1px solid black;
     box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.5);
+    font-size: 40px;
 }
 
 .animShake {

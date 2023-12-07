@@ -1,27 +1,40 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="./assets/css/style.css" rel="stylesheet" />
+    </head>
 
-<head>
-    <title></title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="./assets/css/style.css" rel="stylesheet" />
-</head>
-
-<body>
-    <header>
-        <div></div>
-        <div>
-            <h1>Click The Clown</h1>
-            <p>LIFE : <span></span></p>
+    <body>
+        <div id="sideBar">
+            <a id="closeBtn" href="#">&times;</a>
+            <nav>
+                <h2>Menu</h2>
+                <ul>
+                    <li>Select Level</li>
+                </ul>
+            </nav>
         </div>
-        <div id="timer">
-            <p>TIME :</p>
-            <p id="timerDigit">0:00</p>
-        </div>
-    </header>
-    <div id="main"></div>
-    <script src="./assets/js/script.js"></script>
-</body>
-
+        <header>
+            <div id="menu">
+                <div id="burgerMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div>
+                <h1>Click The Clown</h1>
+                <p>LIFE : <span></span></p>
+            </div>
+            <div id="timer">
+                <p>TIME :</p>
+                <p id="timerDigit">0:00</p>
+            </div>
+        </header>
+        <div id="main"></div>
+        <script src="./assets/js/script.js"></script>
+    </body>
 </html>

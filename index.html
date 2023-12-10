@@ -1,40 +1,54 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title></title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="./assets/css/style.css" rel="stylesheet" />
-    </head>
 
-    <body>
+<head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="./assets/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <div id="menu">
+            <div id="burgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div>
+            <h1>Click The Clown</h1>
+            <p>LIFE : <span></span></p>
+        </div>
+        <div id="timer">
+            <p>TIME :</p>
+            <p id="timerDigit">0:00</p>
+        </div>
+    </header>
+    <div id="main">
         <div id="sideBar">
-            <a id="closeBtn" href="#">&times;</a>
             <nav>
                 <h2>Menu</h2>
                 <ul>
-                    <li>Select Level</li>
+                    <li id="selectLvl">Select Level</li>
+                    <li id="quit">Quit</li>
                 </ul>
             </nav>
         </div>
-        <header>
-            <div id="menu">
-                <div id="burgerMenu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-            <div>
-                <h1>Click The Clown</h1>
-                <p>LIFE : <span></span></p>
-            </div>
-            <div id="timer">
-                <p>TIME :</p>
-                <p id="timerDigit">0:00</p>
-            </div>
-        </header>
-        <div id="main"></div>
-        <script src="./assets/js/script.js"></script>
-    </body>
+        <div id="gameOverWin" class="hidden window">
+            <h2>Game Over</h2>
+            <p>You lasted</p>
+            <p id="final time"></p>
+        </div>
+        <div id="lvlWin" class="hidden window">
+            <h2>Selectionnez votre niveau</h2>
+            <button type="button" id="low"></button>
+            <button type="button" id="med"></button>
+            <button type="button" id="hard"></button>
+        </div>
+    </div>
+    <script src="./assets/js/script.js"></script>
+</body>
+
 </html>

@@ -3,29 +3,24 @@ let clownWidth = 0;
 let clownHeight = 0;
 let min = 0;
 let sec = 0;
-let life = 50;
+let initLife = 5;
+let currentLife = 0;
 let lifDecInt = 1000;
+let barClosed = true;
+let lvl = [1.05, 1.1, 1.2];
 
 let clown = document.createElement("img");
 const div = document.querySelector("#main");
 const p = document.querySelector("p");
 const lifeElmt = document.querySelector("p > span");
 const timerElmt = document.querySelector("#timerDigit");
-const finishMsg = document.createElement("div");
-const finishText = document.createElement("p");
-const finishTime = document.createElement("p");
-const resetBtn = document.createElement("button");
 const sideBar = document.querySelector("#sideBar");
 const burgerMenu = document.querySelector("#burgerMenu");
-const closeBtn = document.querySelector("#closeBtn");
-resetBtn.setAttribute("type", "submit");
-finishMsg.appendChild(finishText);
-finishMsg.appendChild(finishTime);
-finishMsg.appendChild(resetBtn);
+const selectLvl = document.querySelector("#selectLvl");
+const quit = document.querySelector("#quit");
+const gameOverWin = document.querySelector("#gameOverWin");
 
-resetBtn.innerHTML = "Recommencer";
-resetBtn.style.width = "100px";
-lifeElmt.innerHTML = life;
+lifeElmt.innerHTML = currentLife;
 
 clown.src = "./assets/images/clown.png";
 clown.style.width = "150px";
@@ -40,19 +35,24 @@ clown.onload = () => {
 };
 
 //Functions
+const showGameOverWin = () => {
+    gameOverWin.classList.toggle("hidden");
+};
 
 const openNav = () => {
     sideBar.style.left = "0";
     sideBar.style.transition = "left ease 1s";
     burgerMenu.style.transform = "rotate(-90deg)";
-    burgerMenu.style.transition = "transform ease 0.5s";
+    burgerMenu.style.transition = "transform ease 1s";
+    barClosed = false;
 };
 
 const closeNav = () => {
     sideBar.style.left = "-230px";
     sideBar.style.transition = "left ease 1s";
     burgerMenu.style.transform = "rotate(0deg)";
-    burgerMenu.style.transition = "transform ease 1.5s";
+    burgerMenu.style.transition = "transform ease 1s";
+    barClosed = true;
 };
 
 const getRandInt = (max) => {
@@ -71,11 +71,22 @@ const randMove = (elmt) => {
 };
 
 const increaseSpeed = (sec) => {
+    intervalClown = setInterval(() => {
+        quit.addEventListener("click", () => {
+            clearInterval(interval);
+            clearInterval(intervalClown);
+        });
+        randMove(clown);
+    }, moveInterval);
     interval = setInterval(() => {
+        quit.addEventListener("click", () => {
+            clearInterval(interval);
+            clearInterval(intervalClown);
+        });
         intervalClown = setInterval(() => {
             randMove(clown);
         }, moveInterval);
-        moveInterval /= 1.1;
+        moveInterval /= 1.05;
     }, sec * 1000);
 };
 
@@ -95,11 +106,13 @@ const timer = (elmt) => {
 };
 
 const lifeDecrease = () => {
+    currentLife = initLife;
+    lifeElmt.innerHTML = currentLife;
     return new Promise((resolve) => {
         const interval = setInterval(() => {
-            life--;
-            lifeElmt.innerHTML = life;
-            if (life == 0) {
+            currentLife--;
+            lifeElmt.innerHTML = currentLife;
+            if (currentLife == 0) {
                 clearInterval(interval);
                 resolve();
             }
@@ -107,42 +120,51 @@ const lifeDecrease = () => {
     });
 };
 
-timer(timerElmt);
-let game = async (interval) => {
+// const centerMenu = (type) => {
+//     div.appendChild(centerMenuMsg);
+//     if (type == "finish") {
+//         const finalTime = document.querySelector("#timerDigit").innerHTML;
+//         timerElmt.remove();
+//         centerMenuTitle.innerHTML = "Bravo vous avez tenu :";
+//         centerMenuContent.innerHTML = finalTime;
+//         centerMenuMsg.appendChild(resetBtn);
+//     } else if (type == "lvl") {
+//         centerMenuTitle.innerHTML = "Selectionnez votre niveau";
+//     }
+// };
+
+let game = async () => {
+    clown.addEventListener("click", () => {
+        shake(p);
+        if (currentLife < 100) {
+            currentLife++;
+        }
+        lifeElmt.innerHTML = currentLife;
+    });
+    p.addEventListener("animationend", () => {
+        shake(p);
+    });
+    // resetBtn.addEventListener("click", () => {
+    //     window.location.reload();
+    // game();
+    // });
+    burgerMenu.addEventListener("click", () => {
+        if (barClosed == true) {
+            openNav();
+        } else {
+            closeNav();
+        }
+    });
+    selectLvl.addEventListener("click", () => {
+        centerMenu("lvl");
+    });
+
+    timer(timerElmt);
     increaseSpeed(10);
     await lifeDecrease();
+    showGameOverWin();
     clown.remove();
-    clearInterval(interval);
-    finishMsg.classList.add("floatingMsg");
-    div.appendChild(finishMsg);
-    console.log("Game Over");
-    const finalTime = document.querySelector("#timerDigit").innerHTML;
-    timerElmt.remove();
-    finishText.innerHTML = "Bravo vous avez tenu :";
-    finishTime.innerHTML = finalTime;
+    // centerMenu("finish");
 };
 
-clown.addEventListener("click", () => {
-    shake(p);
-    if (life < 100) {
-        life++;
-    }
-    lifeElmt.innerHTML = life;
-});
-p.addEventListener("animationend", () => {
-    shake(p);
-});
-intervalClown = setInterval(() => {
-    randMove(clown);
-}, moveInterval);
-resetBtn.addEventListener("click", () => {
-    window.location.reload();
-});
-burgerMenu.addEventListener("click", () => {
-    openNav();
-});
-closeBtn.addEventListener("click", () => {
-    closeNav();
-});
-
-game(intervalClown);
+game();

@@ -19,6 +19,7 @@ const burgerMenu = document.querySelector("#burgerMenu");
 const selectLvl = document.querySelector("#selectLvl");
 const quit = document.querySelector("#quit");
 const gameOverWin = document.querySelector("#gameOverWin");
+const lvlWin = document.querySelector("lvlWin");
 
 lifeElmt.innerHTML = currentLife;
 
@@ -35,8 +36,14 @@ clown.onload = () => {
 };
 
 //Functions
-const showGameOverWin = () => {
+const gameOverWinToggle = () => {
     gameOverWin.classList.toggle("hidden");
+    // let finalTime = document.createElement("p");
+    // gameOverWin.appendChild(finalTime);
+};
+
+const lvlWinToggle = () => {
+    lvlWin.classList.toggle("hidden");
 };
 
 const openNav = () => {
@@ -92,16 +99,20 @@ const increaseSpeed = (sec) => {
 
 const timer = (elmt) => {
     const interval = setInterval(() => {
-        if (sec > 59) {
-            sec = 0;
-            min++;
-        }
-        if (sec < 10) {
-            elmt.innerHTML = `${min}:0${sec}`;
+        if (currentLife == 0) {
+            clearInterval(interval);
         } else {
-            elmt.innerHTML = `${min}:${sec}`;
+            if (sec > 59) {
+                sec = 0;
+                min++;
+            }
+            if (sec < 10) {
+                elmt.innerHTML = `${min}:0${sec}`;
+            } else {
+                elmt.innerHTML = `${min}:${sec}`;
+            }
+            sec++;
         }
-        sec++;
     }, 1000);
 };
 
@@ -120,19 +131,6 @@ const lifeDecrease = () => {
     });
 };
 
-// const centerMenu = (type) => {
-//     div.appendChild(centerMenuMsg);
-//     if (type == "finish") {
-//         const finalTime = document.querySelector("#timerDigit").innerHTML;
-//         timerElmt.remove();
-//         centerMenuTitle.innerHTML = "Bravo vous avez tenu :";
-//         centerMenuContent.innerHTML = finalTime;
-//         centerMenuMsg.appendChild(resetBtn);
-//     } else if (type == "lvl") {
-//         centerMenuTitle.innerHTML = "Selectionnez votre niveau";
-//     }
-// };
-
 let game = async () => {
     clown.addEventListener("click", () => {
         shake(p);
@@ -144,10 +142,6 @@ let game = async () => {
     p.addEventListener("animationend", () => {
         shake(p);
     });
-    // resetBtn.addEventListener("click", () => {
-    //     window.location.reload();
-    // game();
-    // });
     burgerMenu.addEventListener("click", () => {
         if (barClosed == true) {
             openNav();
@@ -155,16 +149,14 @@ let game = async () => {
             closeNav();
         }
     });
-    selectLvl.addEventListener("click", () => {
-        centerMenu("lvl");
-    });
+    selectLvl.addEventListener("click", () => {});
 
     timer(timerElmt);
     increaseSpeed(10);
     await lifeDecrease();
-    showGameOverWin();
+    gameOverWinToggle();
+    // timerElmt.innerHTML = "0:00";
     clown.remove();
-    // centerMenu("finish");
 };
 
 game();
